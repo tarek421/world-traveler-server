@@ -45,6 +45,14 @@ client.connect(err => {
       })
   })
 
+  app.get('/services/:_id', (req, res) => {
+    collection.find({ _id:ObjectId(req.params._id)})
+      .toArray((err, items) => {
+        res.send(items[0]);
+        
+      })
+  })
+
 });
 
 app.listen(port)
