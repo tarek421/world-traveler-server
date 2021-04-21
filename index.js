@@ -55,4 +55,28 @@ client.connect(err => {
 
 });
 
+
+client.connect(err => {
+  const collection = client.db("tourGuide").collection("order");
+  console.log(err);
+
+  app.post('/addOrder', (req, res) => {
+    const NewOrder = req.body;
+    console.log('adding new order: ', NewOrder)
+    collection.insertOne(NewOrder)
+      .then(result => {
+        console.log('inserted count', result.insertedCount);
+        res.send(result.insertedCount > 0)
+      })
+  })
+
+  app.get('/order', (req, res) => {
+    collection.find()
+      .toArray((err, items) => {
+        res.send(items)
+      })
+  })
+
+});
+
 app.listen(port)
